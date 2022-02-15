@@ -31,10 +31,11 @@ const Drawer = createDrawerNavigator();
 const defaultNavOptions = {
     /*headerTitleStyle: {
         fontFamily: 'open-sans-bold'
-    },
+    },*/
+    headerShadowVisible: false,
     headerBackTitleStyle: {
         fontFamily: 'open-sans'
-    },*/
+    },
     headerTitle: () => <LogoTitle />,
     headerTitleAlign: 'center',
     // Color for back button and title
@@ -44,13 +45,11 @@ const defaultNavOptions = {
             <Item
                 title='Authenticate'
                 iconName={Platform.OS === 'android' ? 'md-person-circle' : 'ios-person-circle'}
-                color={Colors.black}
                 onPress={() => {}}
             />
             <Item
                 title='Cart'
                 iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-                color={Colors.black}
                 onPress={() => {}}
             />
         </HeaderButtons>
@@ -73,11 +72,10 @@ const MainNavigationStack = () => {
                             <Item
                                 title='Menu'
                                 iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-                                color={Colors.black}
                                 onPress={navigation.toggleDrawer}
                             />
                         </HeaderButtons>
-                    ),
+                    )
                 })}
             />
             <Stack.Screen
