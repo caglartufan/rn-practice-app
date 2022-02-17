@@ -2,43 +2,59 @@ import React from 'react';
 import {
     View,
     ScrollView,
-    Text,
     StyleSheet,
-    Button,
-    Dimensions
+    Dimensions,
+    SafeAreaView
 } from 'react-native';
 
 import SearchBar from '../components/UI/SearchBar';
 import CarouselSlider from '../components/UI/CarouselSlider';
 import FeaturedProducts from '../components/UI/FeaturedProducts';
-
-import Colors from '../constants/Colors';
+import RecommendedCategories from '../components/UI/RecommendedCategories';
+import ProductList from '../components/UI/ProductList';
+import { HeadingSecondary } from '../components/UI/Typography';
 
 import CarouselSliderData from '../data/slider';
 import MostSold from '../data/mostSold';
+import Categories from '../data/categories';
 
 const { width } = Dimensions.get('window');
 
 const Home = props => {
-    return (
-        <View style={styles.container}>
-            <SearchBar />
-            <ScrollView>
-                <View style={styles.carouselSliderContainer}>
-                    <CarouselSlider
-                        data={CarouselSliderData}
-                        height={width*0.6}
-                        width={width}
-                        itemWidth={width - (width/5)}
-                    />
-                </View>
+    const HeaderPart = (
+        <ScrollView>
+            <View style={styles.sectionSlider}>
+                <CarouselSlider
+                    data={CarouselSliderData}
+                    height={width*0.6}
+                    width={width}
+                    itemWidth={width - (width/5)}
+                />
+            </View>
+            <View style={styles.sectionFeatured}>
+                <HeadingSecondary>Öne Çıkan Ürünler</HeadingSecondary>
                 <FeaturedProducts data={MostSold} />
-                <Text>Home Screen!</Text>
-                <Button color={Colors.primary} title='Go to Categories' onPress={() => {
-                    props.navigation.navigate('Categories');
-                }} />
-            </ScrollView>
-        </View>
+            </View>
+            <View style={styles.sectionRecommendedCategories}>
+                <HeadingSecondary>Size Uygun Kategoriler</HeadingSecondary>
+                <RecommendedCategories data={Categories} />
+            </View>
+            <HeadingSecondary>Dikkatinizi Çekebilecek Ürünler</HeadingSecondary>
+        </ScrollView>
+    );
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <SearchBar />
+            <View style={styles.sectionProducts}>
+                <ProductList
+                    data={MostSold}
+                    numColumns={2}
+                    key={'Products'}
+                    ListHeaderComponent={HeaderPart}
+                />
+            </View>
+        </SafeAreaView>
     );
 };
 
@@ -47,8 +63,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center'
     },
-    carouselSliderContainer: {
-        height: width*0.6
+    sectionSlider: {
+        height: width*0.6,
+        marginBottom: 12
     }
 });
 

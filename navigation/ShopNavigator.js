@@ -43,13 +43,13 @@ const defaultNavOptions = {
     headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
-                title='Authenticate'
-                iconName={Platform.OS === 'android' ? 'md-person-circle' : 'ios-person-circle'}
+                title='Cart'
+                iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
                 onPress={() => {}}
             />
             <Item
-                title='Cart'
-                iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                title='Authenticate'
+                iconName={Platform.OS === 'android' ? 'md-person-circle' : 'ios-person-circle'}
                 onPress={() => {}}
             />
         </HeaderButtons>

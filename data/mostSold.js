@@ -10,7 +10,7 @@ export default [
     },
     {
         id: 2,
-        title: 'Cable Mouse',
+        title: 'Kablolu Fare',
         description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer',
         category: [],
         image: 'https://productimages.hepsiburada.net/s/124/375/110000074307524.jpg',
@@ -19,7 +19,7 @@ export default [
     },
     {
         id: 3,
-        title: 'HD Display Monitor',
+        title: 'HD Monitör',
         description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer',
         category: [],
         image: 'https://images.officeworks.com.au/api/2/img/https://s3-ap-southeast-2.amazonaws.com/wc-prod-pim/JPEG_1000x1000/IN4794710_.jpg/resize?size=600&auth=MjA5OTcwODkwMg__',
@@ -28,7 +28,7 @@ export default [
     },
     {
         id: 4,
-        title: 'Very Handful Phone',
+        title: 'Android Akıllı Telefon',
         description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer',
         category: [],
         image: 'https://sc04.alicdn.com/kf/Hcb6688aedc7d4b20a02335b4537cdf10W.jpg',
@@ -37,7 +37,7 @@ export default [
     },
     {
         id: 5,
-        title: 'Laptop Backpack',
+        title: 'Laptop Sırt Çantası',
         description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer',
         category: [],
         image: 'https://www.dicota.com/media/catalog/product/cache/db2b61cd4da3695e00a6721f7c8b9b99/d/3/d31814-eco-01.jpg',

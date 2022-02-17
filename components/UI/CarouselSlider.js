@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, TouchableNativeFeedback, TouchableOpacity, SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
-import Colors from '../../constants/Colors';
-
 const { width } = Dimensions.get('window');
 
 export default class CarouselSlider extends Component {
