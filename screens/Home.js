@@ -12,6 +12,7 @@ import CarouselSlider from '../components/UI/CarouselSlider';
 import FeaturedProducts from '../components/UI/FeaturedProducts';
 import RecommendedCategories from '../components/UI/RecommendedCategories';
 import ProductList from '../components/UI/ProductList';
+import SocialMediaList from '../components/UI/SocialMediaList';
 import { HeadingSecondary } from '../components/UI/Typography';
 
 import CarouselSliderData from '../data/slider';
@@ -43,17 +44,22 @@ const Home = props => {
         </ScrollView>
     );
 
+    const FooterPart = (
+        <View style={styles.sectionSocialMedia}>
+            <SocialMediaList />
+        </View>
+    );
+
     return (
         <SafeAreaView style={styles.container}>
             <SearchBar />
-            <View style={styles.sectionProducts}>
-                <ProductList
-                    data={MostSold}
-                    numColumns={2}
-                    key={'Products'}
-                    ListHeaderComponent={HeaderPart}
-                />
-            </View>
+            <ProductList
+                data={MostSold}
+                numColumns={2}
+                key={'Products'}
+                ListHeaderComponent={HeaderPart}
+                ListFooterComponent={FooterPart}
+            />
         </SafeAreaView>
     );
 };
@@ -66,6 +72,9 @@ const styles = StyleSheet.create({
     sectionSlider: {
         height: width*0.6,
         marginBottom: 12
+    },
+    sectionSocialMedia: {
+        margin: 10
     }
 });
 

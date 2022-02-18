@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 50,
-        backgroundColor: Colors.white
+        backgroundColor: Colors.white,
+        borderBottomColor: Colors.lightgray,
+        borderBottomWidth: 1
     },
     searchIcon: {
         position: 'absolute',

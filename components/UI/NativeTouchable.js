@@ -21,8 +21,8 @@ const NativeTouchable = props => {
     }
 
     return (
-        <View style={{...styles.item, ...props.style}}>
-            <View style={styles.touchable}>
+        <View style={{...styles.item, ...props.style, borderRadius: props.borderRadius || 8}}>
+            <View style={{...styles.touchable, borderRadius: props.borderRadius || 8}}>
                 <TouchableCmp
                     onPress={props.onPress}
                     useForeground
@@ -41,10 +41,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 6,
         elevation: 4,
-        borderRadius: 8,
     },
     touchable: {
-        borderRadius: 8,
         overflow: 'hidden'
     },
 });

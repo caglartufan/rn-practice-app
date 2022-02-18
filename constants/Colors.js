@@ -4,5 +4,6 @@ export default {
     tertiary: '#247BA0',
     quinary: '#13293D',
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    lightgray: '#EAEAEA'
 };
