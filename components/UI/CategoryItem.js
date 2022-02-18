@@ -21,7 +21,7 @@ const randomColor = () => {
 
 const CategoryItem = props => {
     return (
-        <NativeTouchable style={styles.container}>
+        <NativeTouchable style={styles.container} borderRadius={8}>
             <View style={styles.content}>
                 <ImageBackground imageStyle={styles.image} source={{ uri: props.image }} style={{...styles.imageContainer, backgroundColor: randomColor()}}>
                     <DefaultText style={styles.title}>{props.title}</DefaultText>

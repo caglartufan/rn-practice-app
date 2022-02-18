@@ -12,6 +12,7 @@ const ProductItem = props => {
         <NativeTouchable
             style={styles.item}
             onPress={props.onPress}
+            borderRadius={8}
         >
             <View style={styles.container}>
                 <View style={styles.imageContainer}>

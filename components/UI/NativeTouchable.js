@@ -21,8 +21,8 @@ const NativeTouchable = props => {
     }
 
     return (
-        <View style={{...styles.item, ...props.style, borderRadius: props.borderRadius || 8}}>
-            <View style={{...styles.touchable, borderRadius: props.borderRadius || 8}}>
+        <View style={{...styles.item, ...props.style, borderRadius: props.borderRadius || 0}}>
+            <View style={{...styles.touchable, borderRadius: props.borderRadius || 0}}>
                 <TouchableCmp
                     onPress={props.onPress}
                     useForeground

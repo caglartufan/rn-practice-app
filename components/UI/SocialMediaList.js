@@ -21,7 +21,7 @@ const socialMediaIcons = Platform.select({
         },
         instagram: {
             name: 'ios-logo-instagram',
-            color: '#'
+            color: '#E1306C'
         },
         youtube: {
             name: 'ios-logo-youtube',
@@ -35,7 +35,7 @@ const socialMediaIcons = Platform.select({
         },
         instagram: {
             name: 'md-logo-instagram',
-            color: '#'
+            color: '#E1306C'
         },
         youtube: {
             name: 'md-logo-youtube',
@@ -62,7 +62,7 @@ const SocialMediaList = props => {
     return (
         <View style={styles.container}>
             {socials.map(social =>
-                <SocialItem {...social} />
+                <SocialItem {...social} key={social.name} />
             )}
         </View>
     );

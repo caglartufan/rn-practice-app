@@ -1,56 +1,49 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableNativeFeedback, TouchableOpacity, SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
+import React, {useRef, useEffect } from 'react';
+import { View, SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+
+import NativeTouchable from './NativeTouchable';
 
 const { width } = Dimensions.get('window');
 
-export default class CarouselSlider extends Component {
-    _renderItem({item, index}, parallaxProps) {
-        let TouchableComponent;
+const renderItem = ({item, index}, parallaxProps) => {
+    return (
+        <NativeTouchable borderRadius={0}>
+            <SafeAreaView style={styles.item}>
+                <ParallaxImage
+                    source={{ uri: item.source }}
+                    containerStyle={styles.imageContainer}
+                    style={styles.image}
+                    {...parallaxProps}
+                />
+            </SafeAreaView>
+        </NativeTouchable>
+    );
+};
 
-        if(Platform.OS === 'android' && Platform.Version > 20) {
-            TouchableComponent = TouchableNativeFeedback;
-        }
+const CarouselSlider = props => {
+    const carouselRef = useRef();
 
-        if(Platform.OS === 'ios') {
-            TouchableComponent = TouchableOpacity;
-        }
+    useEffect(() => {
+        carouselRef.current.triggerRenderingHack();
+    }, []);
 
-        return (
-            <TouchableNativeFeedback onPress={() => alert('Hi!')} useForeground activeOpacity={.1}>
-                <View style={{borderRadius: 5}}>
-                    <SafeAreaView style={styles.item}>
-                        <ParallaxImage
-                            source={{ uri: item.source }}
-                            containerStyle={styles.imageContainer}
-                            style={styles.image}
-                            {...parallaxProps}
-                        />
-                    </SafeAreaView>
-                </View>
-            </TouchableNativeFeedback>
-        );
-    };
-
-    render() {
-        const settings = {
-            sliderWidth: this.props.width,
-            sliderHeight: this.props.height,
-            itemWidth: this.props.itemWidth,
-            data: this.props.data,
-            renderItem: this._renderItem,
-            hasParallaxImages: true,
-            loop: true,
-            autoplay: true,
-            autoplayDelay: 1000
-        };
-
-        return (
-            <View style={styles.carousel}>
-                <Carousel {...settings} />
-            </View>
-        );
-    }
+    return (
+        <View style={styles.carousel}>
+            <Carousel
+                sliderWidth={props.width}
+                sliderHeight={props.height}
+                itemWidth={props.itemWidth}
+                data={props.data}
+                renderItem={renderItem}
+                hasParallaxImages={true}
+                loop={true}
+                autoplay={true}
+                autoplayDelay={1000}
+                ref={carouselRef}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -59,7 +52,7 @@ const styles = StyleSheet.create({
     },
     item: {
         width: '100%',
-        height: width*0.6
+        height: width*0.5
     },
     imageContainer: {
         flex: 1,
@@ -70,3 +63,5 @@ const styles = StyleSheet.create({
         resizeMode: 'cover'
     }
 });
+
+export default CarouselSlider;

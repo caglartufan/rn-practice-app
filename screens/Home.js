@@ -22,13 +22,14 @@ import Categories from '../data/categories';
 const { width } = Dimensions.get('window');
 
 const Home = props => {
-    const HeaderPart = (
+    const HeaderPart = () => (
         <ScrollView>
             <View style={styles.sectionSlider}>
                 <CarouselSlider
                     data={CarouselSliderData}
                     height={width*0.6}
                     width={width}
+                    itemHeight={width*0.5}
                     itemWidth={width - (width/5)}
                 />
             </View>
@@ -44,7 +45,7 @@ const Home = props => {
         </ScrollView>
     );
 
-    const FooterPart = (
+    const FooterPart = () => (
         <View style={styles.sectionSocialMedia}>
             <SocialMediaList />
         </View>
@@ -71,7 +72,6 @@ const styles = StyleSheet.create({
     },
     sectionSlider: {
         height: width*0.6,
-        marginBottom: 12
     },
     sectionSocialMedia: {
         margin: 10
