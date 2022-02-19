@@ -1,13 +1,25 @@
 import React from 'react';
-import { Platform, SafeAreaView, Image, View, StatusBar } from 'react-native';
+import {
+    Platform,
+    SafeAreaView,
+    Image,
+    View,
+    TouchableOpacity,
+    TouchableNativeFeedback,
+    Text,
+    StatusBar
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Home from '../screens/Home';
 import Categories from '../screens/Categories';
+import Products from '../screens/Products';
+import Settings from '../screens/Settings';
+import Auth from '../screens/Auth';
 
 import CustomHeaderButton from '../components/UI/CustomHeaderButton';
 import Colors from '../constants/Colors';
@@ -25,10 +37,48 @@ const LogoTitle = () => {
     );
 };
 
+const DrawerButton = ({ navigation }) => (
+    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+            title='Menu'
+            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            onPress={navigation.toggleDrawer}
+        />
+    </HeaderButtons>
+);
+
+const LogOutButton = () => {
+    let TouchableCmp;
+
+    if(Platform.OS === 'android' && Platform.Version > 20) {
+        TouchableCmp = TouchableNativeFeedback;
+    }
+
+    if(Platform.OS === 'ios') {
+        TouchableCmp = TouchableOpacity;
+    }
+
+    return (
+        <View style={{ borderRadius: 5, overflow: 'hidden' }}>
+            <TouchableCmp background={TouchableNativeFeedback.Ripple('#656566', false)}>
+                <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
+                    <MaterialIcons
+                        name='logout'
+                        size={23}
+                        color={'#656566'}
+                        style={{ marginRight: 30 }}
+                    />
+                    <Text style={{ color: '#656566' }}>Çıkış Yap</Text>
+                </View>
+            </TouchableCmp>
+        </View>
+    );
+}
+
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const defaultNavOptions = {
+const defaultNavOptions = ({ navigation }) => ({
     /*headerTitleStyle: {
         fontFamily: 'open-sans-bold'
     },*/
@@ -40,6 +90,9 @@ const defaultNavOptions = {
     headerTitleAlign: 'center',
     // Color for back button and title
     headerTintColor: Colors.black,
+    headerBackTitleStyle: {
+        fontFamily: 'open-sans'
+    },
     headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
@@ -50,11 +103,14 @@ const defaultNavOptions = {
             <Item
                 title='Authenticate'
                 iconName={Platform.OS === 'android' ? 'md-person-circle' : 'ios-person-circle'}
-                onPress={() => {}}
+                onPress={() => {
+                    // Check if user signed in already later
+                    navigation.navigate('Auth');
+                }}
             />
         </HeaderButtons>
     )
-};
+});
 
 const MainNavigationStack = () => {
     return (
@@ -67,22 +123,24 @@ const MainNavigationStack = () => {
                 component={Home}
                 options={({ navigation }) => ({
                     title: 'Mağaza',
-                    headerLeft: () => (
-                        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                            <Item
-                                title='Menu'
-                                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-                                onPress={navigation.toggleDrawer}
-                            />
-                        </HeaderButtons>
-                    )
+                    headerLeft: () => <DrawerButton navigation={navigation} />
                 })}
             />
             <Stack.Screen
                 name='Categories'
                 component={Categories}
+            />
+            <Stack.Screen
+                name='Products'
+                component={Products}
+            />
+            <Stack.Screen
+                name='Auth'
+                component={Auth}
                 options={{
-                    title: 'Tüm Kategoriler'
+                    cardStyle: {
+                        backgroundColor: Colors.white
+                    }
                 }}
             />
         </Stack.Navigator>
@@ -99,8 +157,13 @@ const ShopNavigator = () => {
                 }}
                 drawerContent={props => (
                     <View style={{ flex: 1, paddingTop: StatusBar.currentHeight }}>
-                        <SafeAreaView>
-                            <DrawerItemList {...props} />
+                        <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }}>
+                            <View>
+                                <DrawerItemList {...props} />
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <LogOutButton />
+                            </View>
                         </SafeAreaView>
                     </View>
                 )}
@@ -119,6 +182,21 @@ const ShopNavigator = () => {
                             />
                         )
                     }}
+                />
+                <Drawer.Screen
+                    name='Settings'
+                    component={Settings}
+                    options={({navigation}) => ({
+                        title: 'Ayarlar',
+                        drawerIcon: drawerConfig => (
+                            <MaterialIcons
+                                name='settings'
+                                size={23}
+                                color={drawerConfig.color}
+                            />
+                        ),
+                        headerLeft: () => <DrawerButton navigation={navigation} />,
+                    })}
                 />
             </Drawer.Navigator>
         </NavigationContainer>

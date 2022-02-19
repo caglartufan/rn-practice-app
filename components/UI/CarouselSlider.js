@@ -1,4 +1,4 @@
-import React, {useRef, useEffect } from 'react';
+import React from 'react';
 import { View, SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
@@ -7,6 +7,7 @@ import NativeTouchable from './NativeTouchable';
 const { width } = Dimensions.get('window');
 
 const renderItem = ({item, index}, parallaxProps) => {
+
     return (
         <NativeTouchable borderRadius={0}>
             <SafeAreaView style={styles.item}>
@@ -21,14 +22,7 @@ const renderItem = ({item, index}, parallaxProps) => {
     );
 };
 
-const CarouselSlider = props => {
-    const carouselRef = useRef();
-
-    useEffect(() => {
-        carouselRef.current.triggerRenderingHack();
-    }, []);
-
-    return (
+const CarouselSlider = props => {    return (
         <View style={styles.carousel}>
             <Carousel
                 sliderWidth={props.width}
@@ -40,7 +34,6 @@ const CarouselSlider = props => {
                 loop={true}
                 autoplay={true}
                 autoplayDelay={1000}
-                ref={carouselRef}
             />
         </View>
     );

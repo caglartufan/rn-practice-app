@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
 
 import NativeTouchable from './NativeTouchable';
-import { DefaultText } from './Typography';
 
 import Colors from '../../constants/Colors';
 
 const socials = [
     { name: 'twitter', link: 'https://www.twitter.com/' },
     { name: 'instagram', link: 'https://www.instagram.com/' },
-    { name: 'youtube', link: 'https://www.youtube.com/' }
+    { name: 'youtube', link: 'https://www.youtube.com/' },
+    { name: 'whatsapp', link: 'https://www.whatsapp.com/' }
 ];
 
 const socialMediaIcons = Platform.select({
@@ -26,6 +27,10 @@ const socialMediaIcons = Platform.select({
         youtube: {
             name: 'ios-logo-youtube',
             color: '#FF0000'
+        },
+        whatsapp: {
+            name: 'ios-logo-whatsapp',
+            color: '#25D366'
         }
     },
     android: {
@@ -40,13 +45,25 @@ const socialMediaIcons = Platform.select({
         youtube: {
             name: 'md-logo-youtube',
             color: '#FF0000'
+        },
+        whatsapp: {
+            name: 'md-logo-whatsapp',
+            color: '#25D366'
         }
     }
 })
 
 const SocialItem = props => {
+    const onPressHandler = link => {
+        WebBrowser.openBrowserAsync(link);
+    };
+
     return (
-        <NativeTouchable style={styles.item} borderRadius={22.5}>
+        <NativeTouchable
+            style={styles.item}
+            borderRadius={22.5}
+            onPress={onPressHandler.bind(this, props.link)}
+        >
             <View style={styles.socialButton}>
                 <Ionicons
                     name={socialMediaIcons[props.name].name}

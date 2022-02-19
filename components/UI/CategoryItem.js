@@ -8,6 +8,7 @@ import {
     TouchableNativeFeedback,
     Platform
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import NativeTouchable from './NativeTouchable';
 import { DefaultText } from './Typography';
@@ -20,8 +21,20 @@ const randomColor = () => {
 }
 
 const CategoryItem = props => {
+    const navigation = useNavigation();
+
+    const onPressHandler = categoryTitle => {
+        navigation.navigate('Products', {
+            categoryTitle: categoryTitle
+        });
+    };
+
     return (
-        <NativeTouchable style={styles.container} borderRadius={8}>
+        <NativeTouchable
+            style={styles.container}
+            borderRadius={8}
+            onPress={onPressHandler.bind(this, props.title)}
+        >
             <View style={styles.content}>
                 <ImageBackground imageStyle={styles.image} source={{ uri: props.image }} style={{...styles.imageContainer, backgroundColor: randomColor()}}>
                     <DefaultText style={styles.title}>{props.title}</DefaultText>

@@ -2,9 +2,20 @@ import 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Fonts from 'expo-font';
-import AppLoading from 'expo-app-loading'
+import AppLoading from 'expo-app-loading';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
 
 import ShopNavigator from './navigation/ShopNavigator';
+
+import authReducer from './store/reducers/auth';
+
+const rootReducer = combineReducers({
+    auth: authReducer
+});
+
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
     return Fonts.loadAsync({
@@ -27,6 +38,8 @@ export default function App() {
     }
 
     return (
-        <ShopNavigator />
+        <Provider store={store}>
+            <ShopNavigator />
+        </Provider>
     );
 }
