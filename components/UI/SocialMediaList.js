@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 
-import NativeTouchable from './NativeTouchable';
+import NativeTouchable from '../Primitives/NativeTouchable';
 
 import Colors from '../../constants/Colors';
 

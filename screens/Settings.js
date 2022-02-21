@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 
-import { DefaultText } from '../components/UI/Typography';
+import { DefaultText } from '../components/Primitives/Typography';
 
 const Settings = props => {
     return (

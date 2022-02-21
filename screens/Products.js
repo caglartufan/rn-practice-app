@@ -3,7 +3,7 @@ import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 
 import SearchBar from '../components/UI/SearchBar';
 import ProductList from '../components/UI/ProductList';
-import { HeadingPrimary } from '../components/UI/Typography';
+import { HeadingPrimary } from '../components/Primitives/Typography';
 
 import MostSold from '../data/mostSold';
 

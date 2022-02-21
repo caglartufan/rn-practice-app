@@ -2,7 +2,7 @@ import React from 'react';
 import { View, SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
-import NativeTouchable from './NativeTouchable';
+import NativeTouchable from '../Primitives/NativeTouchable';
 
 const { width } = Dimensions.get('window');
 

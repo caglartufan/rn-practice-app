@@ -13,7 +13,7 @@ import FeaturedProducts from '../components/UI/FeaturedProducts';
 import RecommendedCategories from '../components/UI/RecommendedCategories';
 import ProductList from '../components/UI/ProductList';
 import SocialMediaList from '../components/UI/SocialMediaList';
-import { HeadingSecondary } from '../components/UI/Typography';
+import { HeadingSecondary } from '../components/Primitives/Typography';
 
 import CarouselSliderData from '../data/slider';
 import MostSold from '../data/mostSold';

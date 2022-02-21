@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer, useCallback } from 'react';
 import {
     View,
     StyleSheet,
-    TextInput,
     SafeAreaView,
     Pressable,
     Dimensions
@@ -11,26 +10,66 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import * as authActions from '../store/actions/auth';
 
-import NativeTouchable from '../components/UI/NativeTouchable';
-import { BoldText, DefaultText } from '../components/UI/Typography';
+import NativeTouchable from '../components/Primitives/NativeTouchable';
+import Input from '../components/Primitives/Input';
+import { BoldText, DefaultText } from '../components/Primitives/Typography';
 
 import Colors from '../constants/Colors';
 
 const { width } = Dimensions.get('window');
 
-const Input = props => {
-    return (
-        <View style={styles.inputShadow}>
-            <View style={styles.inputContainer}>
-                <TextInput style={styles.input} {...props} />
-            </View>
-        </View>
-    );
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+const FORM_TYPE_CHANGE  = 'FORM_TYPE_CHANGE';
+
+const formReducer = (state, action) => {
+    switch(action.type) {
+        case FORM_INPUT_UPDATE: {
+            const updatedInputs = {
+                ...state.inputs,
+                [action.name]: {
+                    value: action.value,
+                    error: action.error
+                }
+            };
+            let updatedIsFormValid = true;
+            for(const inputName in updatedInputs) {
+                updatedIsFormValid = updatedIsFormValid && !updatedInputs[inputName].error;
+                if(!updatedIsFormValid) {
+                    break;
+                }
+            }
+            return {
+                inputs: updatedInputs,
+                isFormValid: updatedIsFormValid
+            };
+        } case FORM_TYPE_CHANGE: {
+            let updatedInputs;
+            if(action.changedTo === 'signup') {
+                updatedInputs = {
+                    ...state.inputs,
+                    passwordAgain: {
+                        value: '',
+                        error: null
+                    }
+                };
+            }
+            if(action.changedTo === 'signin') {
+                updatedInputs = { ...state.inputs };
+                delete updatedInputs.passwordAgain;
+            }
+            return {
+                ...state,
+                inputs: updatedInputs
+            };
+        } default: {
+            return state;
+        }
+    }
 };
 
 const Button = props => {
     return (
-        <NativeTouchable style={styles.button} borderRadius={6}>
+        <NativeTouchable style={styles.button} borderRadius={6} onPress={props.onPress}>
             <View style={styles.buttonContainer}>
                 <BoldText style={styles.buttonText}>{props.title}</BoldText>
             </View>
@@ -44,6 +83,42 @@ const Auth = props => {
 
     const { userId, token } = useSelector(state => state.auth);
 
+    const [formState, dispatchFormState] = useReducer(formReducer, {
+        inputs: {
+            email: {
+                value: '',
+                error: null
+            },
+            password: {
+                value: '',
+                error: null
+            }
+        },
+        isFormValid: false
+    });
+
+    const formSubmitHandler = () => {
+        // handle form submit
+        console.log(formState);
+    };
+
+    const onInputChangeText = useCallback((name, value, error) => {
+        dispatchFormState({
+            type: FORM_INPUT_UPDATE,
+            name,
+            value,
+            error
+        });
+    }, [dispatchFormState]);
+
+    const onFormTypeChange = () => {
+        dispatchFormState({
+            type: FORM_TYPE_CHANGE,
+            changedTo: doShowLogin ? 'signup' : 'signin'
+        });
+        setDoShowLogin(prevState => !prevState);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.innerContainer}>
@@ -55,9 +130,43 @@ const Auth = props => {
                     }
                 </DefaultText>
                 <View style={styles.form}>
-                    <Input placeholder='E-posta adresi' />
-                    <Input placeholder='Şifre' />
-                    {doShowLogin === false && <Input placeholder='Şifre tekrar' />}
+                    <Input
+                        name='email'
+                        placeholder='E-posta adresi'
+                        inputChangeText={onInputChangeText}
+                        containerStyle={styles.inputMainContainer}
+                        textInputOutlineStyle={styles.inputShadow}
+                        textInputContainerStyle={styles.inputContainer}
+                        textInputStyle={styles.input}
+                        required
+                        email
+                    />
+                    <Input
+                        name='password'
+                        placeholder='Şifre'
+                        inputChangeText={onInputChangeText}
+                        containerStyle={styles.inputMainContainer}
+                        textInputOutlineStyle={styles.inputShadow}
+                        textInputContainerStyle={styles.inputContainer}
+                        textInputStyle={styles.input}
+                        required
+                        minlength={5}
+                        maxlength={30}
+                    />
+                    {doShowLogin === false && 
+                        <Input
+                            name='passwordAgain'
+                            placeholder='Şifre tekrar'
+                            inputChangeText={onInputChangeText}
+                            containerStyle={styles.inputMainContainer}
+                            textInputOutlineStyle={styles.inputShadow}
+                            textInputContainerStyle={styles.inputContainer}
+                            textInputStyle={styles.input}
+                            required
+                            minlength={5}
+                            maxlength={30}
+                        />
+                    }
                 </View>
                 <Button
                     title={
@@ -65,21 +174,22 @@ const Auth = props => {
                             ? 'Giriş Yap'
                             : 'Kayıt Ol'
                     }
+                    onPress={formSubmitHandler}
                 />
                 <View style={styles.otherOption}>
                     <DefaultText style={styles.textDescriptor}>
                         {
                             doShowLogin
-                            ? 'Zaten hesabın var mı?'
-                            : 'Hesabın yok mu?'
+                            ? 'Hesabın yok mu?'
+                            : 'Zaten hesabın var mı?'
                         }
                     </DefaultText>
-                    <Pressable onPress={() => setDoShowLogin(prevState => !prevState)}>
+                    <Pressable onPress={onFormTypeChange}>
                         <BoldText style={styles.textLink}>
                             {
                                 doShowLogin
-                                    ? 'Giriş Yap'
-                                    : 'Kayıt Ol'
+                                    ? 'Kayıt Ol'
+                                    : 'Giriş Yap'
                             }
                         </BoldText>
                     </Pressable>
@@ -107,6 +217,9 @@ const styles = StyleSheet.create({
     form: {
         width: '100%'
     },
+    inputMainContainer: {
+        marginBottom: 15
+    },
     inputShadow: {
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 3 },
@@ -117,7 +230,6 @@ const styles = StyleSheet.create({
         borderColor: '#656566',
         borderWidth: 1,
         backgroundColor: 'transparent',
-        marginBottom: 20
     },
     inputContainer: {
         borderRadius: 6,

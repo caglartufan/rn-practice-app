@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import NativeTouchable from './NativeTouchable';
-import { DefaultText } from './Typography';
+import NativeTouchable from '../Primitives/NativeTouchable';
+import { DefaultText } from '../Primitives/Typography';
 
 import Colors from '../../constants/Colors';
 

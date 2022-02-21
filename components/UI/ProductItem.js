@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, StyleSheet, Dimensions } from 'react-native';
 
-import NativeTouchable from './NativeTouchable';
-import { DefaultText, BoldText } from './Typography';
+import NativeTouchable from '../Primitives/NativeTouchable';
+import { DefaultText, BoldText } from '../Primitives/Typography';
 import Colors from '../../constants/Colors';
 
 const { width } = Dimensions.get('window');
